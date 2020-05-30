@@ -6,7 +6,10 @@ import Wrapper from "../../hoc/Wrapper/Wrapper";
 class Modal extends Component {
   // Optimize Performance A Little Bit...
   shouldComponentUpdate(nextProps, nextState) {
-    return nextProps.show !== this.props.show;
+    return (
+      nextProps.show !== this.props.show ||
+      nextProps.loading !== this.props.loading
+    );
   }
 
   render() {
