@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import Wrapper from "../Wrapper/Wrapper";
 import Modal from "../../UI/Modal/Modal";
-import Axios from "axios";
+// import Axios from "axios";
 
 const WithErrorHandler = (WrapperComponent, axios) => {
   return class extends Component {
@@ -30,8 +30,8 @@ const WithErrorHandler = (WrapperComponent, axios) => {
 
     componentWillUnmount() {
       //   Unregistering Interceptors
-      Axios.interceptors.request.eject(this.reqInteceptorId);
-      Axios.interceptors.response.eject(this.resInteceptorId);
+      axios.interceptors.request.eject(this.reqInteceptorId);
+      axios.interceptors.response.eject(this.resInteceptorId);
     }
 
     errorConfirmedHandler = () => {

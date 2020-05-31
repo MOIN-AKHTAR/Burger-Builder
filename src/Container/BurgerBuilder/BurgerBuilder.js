@@ -19,9 +19,9 @@ class BurgerBuilder extends Component {
   state = {
     ingredients: {
       salad: 0,
-      cheese: 0,
       meat: 0,
       kabab: 0,
+      cheese: 0,
     },
     totalPrice: 0,
     purchasable: false,
@@ -91,27 +91,20 @@ class BurgerBuilder extends Component {
 
   // Continue Purchase
   purchaseContinueHandler = () => {
-    this.setState({
-      loading: true,
+    const queryParams = [];
+    for (const key in this.state.ingredients) {
+      queryParams.push(
+        encodeURIComponent(key) +
+          "=" +
+          encodeURIComponent(this.state.ingredients[key])
+      );
+    }
+    queryParams.push("price=" + this.state.totalPrice.toFixed(2));
+    const queryString = queryParams.join("&");
+    this.props.history.push({
+      pathname: "/checkout",
+      search: "?" + queryString,
     });
-    const order = {
-      ingredients: this.state.ingredients,
-      totalPrice: this.state.totalPrice.toFixed(2),
-      customer: "Moin Akhter",
-    };
-    Axios.post("/orders.json", order)
-      .then((res) => {
-        this.setState({
-          loading: false,
-          purchasing: false,
-        });
-      })
-      .catch((err) => {
-        this.setState({
-          loading: false,
-          purchasing: false,
-        });
-      });
   };
 
   render() {
