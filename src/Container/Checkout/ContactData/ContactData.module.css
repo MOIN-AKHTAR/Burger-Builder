@@ -2,16 +2,11 @@
   width: 80%;
   margin: 5px auto;
   padding: 5px;
-  box-shadow: 0 2px 3px #eee;
+  box-shadow: 2px 2px 3px #eee;
   box-sizing: border-box;
   text-align: center;
   border: 1px solid #eee;
-}
-.Input {
-  display: block;
-  width: 80%;
-  margin: 5px auto;
-  padding: 3px 10px;
+  margin-bottom: 2rem;
 }
 
 @media (min-width: 600px) {
