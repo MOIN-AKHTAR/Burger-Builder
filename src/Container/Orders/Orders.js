@@ -9,22 +9,30 @@ class Orders extends Component {
     orders: [],
     loading: true,
     error: null,
+    message: null,
   };
 
   componentDidMount() {
     Axios.get("/orders.json")
       .then((res) => {
-        let fetchedData = [];
-        for (const key in res.data) {
-          fetchedData.push({
-            ...res.data[key],
-            id: key,
+        if (res.data === null) {
+          this.setState({
+            loading: false,
+            message: "No Order Found :)",
+          });
+        } else {
+          let fetchedData = [];
+          for (const key in res.data) {
+            fetchedData.push({
+              ...res.data[key],
+              id: key,
+            });
+          }
+          this.setState({
+            loading: false,
+            orders: fetchedData,
           });
         }
-        this.setState({
-          loading: false,
-          orders: fetchedData,
-        });
       })
       .catch((err) => {
         this.setState({
@@ -36,22 +44,36 @@ class Orders extends Component {
 
   render() {
     let orderData = <Spinner />;
-    if (this.state.orders.length > 0) {
-      orderData = (
-        <React.Fragment>
-          {this.state.orders.map((order) => (
-            <Order
-              key={order.id}
-              ingredients={order.ingredients}
-              totalPrice={order.totalPrice}
-            />
-          ))}
-        </React.Fragment>
-      );
+    if (this.state.orders.length > 0 || this.state.message) {
+      if (this.state.message) {
+        orderData = (
+          <h1
+            style={{
+              color: "red",
+              marginTop: "150px",
+              textAlign: "center",
+            }}
+          >
+            {this.state.message}
+          </h1>
+        );
+      } else {
+        orderData = (
+          <React.Fragment>
+            {this.state.orders.map((order) => (
+              <Order
+                key={order.id}
+                ingredients={order.ingredients}
+                totalPrice={order.totalPrice}
+              />
+            ))}
+          </React.Fragment>
+        );
+      }
     }
     if (this.state.error) {
       orderData = (
-        <h4
+        <h1
           style={{
             textAlign: "center",
             margin: "2rem",
@@ -59,7 +81,7 @@ class Orders extends Component {
           }}
         >
           {this.state.error}
-        </h4>
+        </h1>
       );
     }
     return <div>{orderData}</div>;
