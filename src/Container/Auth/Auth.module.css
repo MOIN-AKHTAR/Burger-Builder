@@ -1,0 +1,16 @@
+.AuthData {
+  width: 80%;
+  margin: 5px auto;
+  padding: 5px;
+  box-shadow: 2px 2px 3px #eee;
+  box-sizing: border-box;
+  text-align: center;
+  border: 1px solid #eee;
+  margin-bottom: 2rem;
+}
+
+@media (min-width: 600px) {
+  .AuthData {
+    width: 500px;
+  }
+}

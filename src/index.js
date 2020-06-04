@@ -9,10 +9,15 @@ import { createStore, applyMiddleware, compose, combineReducers } from "redux";
 import thunk from "redux-thunk";
 import { burgerBuiler } from "./Redux/Reducer/BurgerBuilder";
 import { order } from "./Redux/Reducer/Order";
+import { auth } from "./Redux/Reducer/Auth";
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
-const rootReducer = combineReducers({ burger: burgerBuiler, order: order });
+const rootReducer = combineReducers({
+  burger: burgerBuiler,
+  order: order,
+  auth: auth,
+});
 
 const store = createStore(
   rootReducer,
@@ -28,6 +33,7 @@ const app = (
 );
 
 ReactDOM.render(app, document.getElementById("root"));
+console.log("APP");
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.

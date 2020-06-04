@@ -3,49 +3,18 @@ import Order from "../../Component/Order/Order";
 import Axios from "../../Axios";
 import WithErrorHandler from "../../hoc/WithErrorHandler/WithErrorHandler";
 import Spinner from "../../UI/Spinner/Spinner";
+import { connect } from "react-redux";
+import { loadOrders } from "../../Redux/index";
 
 class Orders extends Component {
-  state = {
-    orders: [],
-    loading: true,
-    error: null,
-    message: null,
-  };
-
   componentDidMount() {
-    Axios.get("/orders.json")
-      .then((res) => {
-        if (res.data === null) {
-          this.setState({
-            loading: false,
-            message: "No Order Found :)",
-          });
-        } else {
-          let fetchedData = [];
-          for (const key in res.data) {
-            fetchedData.push({
-              ...res.data[key],
-              id: key,
-            });
-          }
-          this.setState({
-            loading: false,
-            orders: fetchedData,
-          });
-        }
-      })
-      .catch((err) => {
-        this.setState({
-          loading: false,
-          error: "Something Gone Wrong!!!",
-        });
-      });
+    this.props.loadOrders(this.props.token, this.props.userId);
   }
 
   render() {
     let orderData = <Spinner />;
-    if (this.state.orders.length > 0 || this.state.message) {
-      if (this.state.message) {
+    if (this.props.orders.length > 0 || this.props.message) {
+      if (this.props.message) {
         orderData = (
           <h1
             style={{
@@ -54,13 +23,13 @@ class Orders extends Component {
               textAlign: "center",
             }}
           >
-            {this.state.message}
+            {this.props.message}
           </h1>
         );
       } else {
         orderData = (
           <React.Fragment>
-            {this.state.orders.map((order) => (
+            {this.props.orders.map((order) => (
               <Order
                 key={order.id}
                 ingredients={order.ingredients}
@@ -71,7 +40,7 @@ class Orders extends Component {
         );
       }
     }
-    if (this.state.error) {
+    if (this.props.error) {
       orderData = (
         <h1
           style={{
@@ -80,7 +49,7 @@ class Orders extends Component {
             color: "red",
           }}
         >
-          {this.state.error}
+          {this.props.error}
         </h1>
       );
     }
@@ -88,4 +57,20 @@ class Orders extends Component {
   }
 }
 
-export default WithErrorHandler(Orders, Axios);
+const mapStateToProps = (State) => ({
+  orders: State.order.orders,
+  loading: State.order.loading,
+  message: State.order.message,
+  error: State.order.error,
+  token: State.auth.token,
+  userId: State.auth.userId,
+});
+
+const mapDispatchToProps = (Dispatch) => ({
+  loadOrders: (token, userId) => Dispatch(loadOrders(token, userId)),
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(WithErrorHandler(Orders, Axios));

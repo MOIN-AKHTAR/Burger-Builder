@@ -15,6 +15,7 @@ const initialState = {
     cheese: 0,
   },
   totalPrice: 4,
+  // building: false,
 };
 
 export const burgerBuiler = (State = initialState, Action) => {
@@ -27,6 +28,7 @@ export const burgerBuiler = (State = initialState, Action) => {
           [Action.ingredientName]: State.ingredients[Action.ingredientName] + 1,
         },
         totalPrice: State.totalPrice + INGREDIENT_PRICES[Action.ingredientName],
+        // building: true,
       };
     case actionType.REMOVE_INGREDIENT:
       return {
@@ -36,6 +38,7 @@ export const burgerBuiler = (State = initialState, Action) => {
           [Action.ingredientName]: State.ingredients[Action.ingredientName] - 1,
         },
         totalPrice: State.totalPrice - INGREDIENT_PRICES[Action.ingredientName],
+        // building: true,
       };
     case actionType.RESET_INGREDIENTS:
       return {
@@ -47,6 +50,7 @@ export const burgerBuiler = (State = initialState, Action) => {
           cheese: 0,
         },
         totalPrice: 4,
+        // building: false,
       };
     default:
       return State;
