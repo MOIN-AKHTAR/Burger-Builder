@@ -43,10 +43,10 @@ export const auth = (email, password, isSignUp) => (dispatch) => {
     returnSecureToken: true,
   };
   let url =
-    "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyAaiqYrDt2m0IYhUEDHmv8JK1YbUYEpPD4";
+    "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=[API_KEY]";
   if (!isSignUp) {
     url =
-      "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyAaiqYrDt2m0IYhUEDHmv8JK1YbUYEpPD4";
+      "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=[API_KEY]";
   }
   dispatch(authStart());
   Axios.post(url, authData)
