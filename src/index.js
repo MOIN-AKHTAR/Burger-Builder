@@ -11,7 +11,11 @@ import { burgerBuiler } from "./Redux/Reducer/BurgerBuilder";
 import { order } from "./Redux/Reducer/Order";
 import { auth } from "./Redux/Reducer/Auth";
 
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+// Making sure that we can access redux states only in dev mode
+const composeEnhancers =
+  process.env.NODE_ENV === "development"
+    ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
+    : null || compose;
 
 const rootReducer = combineReducers({
   burger: burgerBuiler,
@@ -33,7 +37,6 @@ const app = (
 );
 
 ReactDOM.render(app, document.getElementById("root"));
-console.log("APP");
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
